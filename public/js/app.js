@@ -2090,6 +2090,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2255,6 +2256,197 @@ __webpack_require__.r(__webpack_exports__);
 
         axios.get('/pasatiempos').then(function (res) {
           _this4.pasatiempos = res.data;
+        });
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TareaComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TareaComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      tareas: [],
+      tarea: {
+        name: '',
+        description: '',
+        id: ''
+      },
+      isedited: false,
+      contenidoerror: '',
+      contenidoerror2: ''
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/tareas').then(function (res) {
+      _this.tareas = res.data;
+    });
+  },
+  methods: {
+    agregar: function agregar() {
+      var _this2 = this;
+
+      if (this.tarea.name.trim() === '' || this.tarea.description.trim() === '') {
+        alert('campos incompletos');
+        return;
+      }
+
+      var objenviar = {
+        name: this.tarea.name,
+        description: this.tarea.description
+      };
+      this.tarea.name = '';
+      this.tarea.description = '';
+      axios.post('/tareas', objenviar).then(function (res) {
+        console.log(res);
+
+        if (res.data.created_at) {
+          _this2.tareas.push(res.data);
+        } else {
+          console.log(res.data.error);
+
+          if (res.data.error.name) {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+              for (var _iterator = res.data.error.name[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var i = _step.value;
+                _this2.contenidoerror = i;
+                alert(i);
+              }
+            } catch (err) {
+              _didIteratorError = true;
+              _iteratorError = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
+                }
+              } finally {
+                if (_didIteratorError) {
+                  throw _iteratorError;
+                }
+              }
+            }
+          }
+
+          if (res.data.error.description) {
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+              for (var _iterator2 = res.data.error.description[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var _i = _step2.value;
+                _this2.contenidoerror2 = _i;
+                alert(_i);
+              }
+            } catch (err) {
+              _didIteratorError2 = true;
+              _iteratorError2 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                  _iterator2["return"]();
+                }
+              } finally {
+                if (_didIteratorError2) {
+                  throw _iteratorError2;
+                }
+              }
+            }
+          }
+        }
+      });
+    },
+    eliminar: function eliminar(item, index) {
+      var _this3 = this;
+
+      axios["delete"]("/tareas/".concat(item.id)).then(function () {
+        _this3.tareas.splice(index, 1);
+      });
+    },
+    editar: function editar(item) {
+      this.isedited = true;
+      this.tarea.name = item.name;
+      this.tarea.description = item.description;
+      this.tarea.id = item.id;
+    },
+    cancelarEdicion: function cancelarEdicion() {
+      this.isedited = false;
+      this.tarea.name = '';
+      this.tarea.description = '';
+    },
+    editarNota: function editarNota(item) {
+      var _this4 = this;
+
+      var params = {
+        name: item.name,
+        description: item.description
+      };
+      axios.put("/tareas/".concat(item.id), params).then(function (res) {
+        var index = _this4.tareas.findIndex(function (tarea) {
+          return tarea.id === res.data.id;
+        });
+
+        _this4.tareas[index] = res.data;
+
+        _this4.cancelarEdicion();
+
+        axios.get('/tareas').then(function (res) {
+          _this4.tareas = res.data;
         });
       });
     }
@@ -38136,13 +38328,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      [_vm.isadmin ? _c("admin-component") : _c("pasatiempo-component")],
-      1
-    )
-  ])
+  return _c("div", [_c("div", [_c("tarea-component")], 1)])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38322,6 +38508,238 @@ var render = function() {
       "ul",
       { staticClass: "list-group my-2" },
       _vm._l(_vm.pasatiempos, function(item, index) {
+        return _c("li", { key: index, staticClass: "list-group-item" }, [
+          _c("p", [_vm._v(_vm._s(item.name))]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(item.description))]),
+          _vm._v(" "),
+          _c("span", { staticClass: "badge badge-primary float-right" }, [
+            _vm._v(
+              "\n                " + _vm._s(item.updated_at) + "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger btn-sm",
+              on: {
+                click: function($event) {
+                  return _vm.eliminar(item, index)
+                }
+              }
+            },
+            [_vm._v("eliminar")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-warning btn-sm",
+              on: {
+                click: function($event) {
+                  return _vm.editar(item)
+                }
+              }
+            },
+            [_vm._v("Editar")]
+          )
+        ])
+      }),
+      0
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TareaComponent.vue?vue&type=template&id=4c06b7b2&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TareaComponent.vue?vue&type=template&id=4c06b7b2& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.isedited
+      ? _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.editarNota(_vm.pasatiempo)
+              }
+            }
+          },
+          [
+            _c("h3", [_vm._v("Edita tus Tareas")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tarea.name,
+                  expression: "tarea.name"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "nombre" },
+              domProps: { value: _vm.tarea.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.tarea, "name", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tarea.description,
+                  expression: "tarea.description"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "description" },
+              domProps: { value: _vm.tarea.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.tarea, "description", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success btn-sm",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Guardar")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger btn-sm",
+                attrs: { type: "submit" },
+                on: {
+                  click: function($event) {
+                    return _vm.cancelarEdicion()
+                  }
+                }
+              },
+              [_vm._v("Cancelar")]
+            ),
+            _vm._v(" "),
+            _vm.contenidoerror
+              ? _c("p", { staticClass: "badge badge-danger" }, [
+                  _c("b", [_vm._v(_vm._s(_vm.contenidoerror) + "}")])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.contenidoerror2
+              ? _c("p", { staticClass: "badge badge-danger" }, [
+                  _c("b", [_vm._v(_vm._s(_vm.contenidoerror2) + "}")])
+                ])
+              : _vm._e()
+          ]
+        )
+      : _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.agregar($event)
+              }
+            }
+          },
+          [
+            _c("h3", [_vm._v("Agrega tus Tareas")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tarea.name,
+                  expression: "tarea.name"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "nombre" },
+              domProps: { value: _vm.tarea.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.tarea, "name", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tarea.description,
+                  expression: "tarea.description"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "description" },
+              domProps: { value: _vm.tarea.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.tarea, "description", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+              [_vm._v("Agregar")]
+            )
+          ]
+        ),
+    _vm._v(" "),
+    _c("hr", { staticClass: "mt-3" }),
+    _vm._v(" "),
+    _c("h3", [_vm._v("Listado de Tareas")]),
+    _vm._v(" "),
+    _c(
+      "ul",
+      { staticClass: "list-group my-2" },
+      _vm._l(_vm.tareas, function(item, index) {
         return _c("li", { key: index, staticClass: "list-group-item" }, [
           _c("p", [_vm._v(_vm._s(item.name))]),
           _vm._v(" "),
@@ -50536,6 +50954,7 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 Vue.component('pasatiempo-component', __webpack_require__(/*! ./components/PasatiempoComponent.vue */ "./resources/js/components/PasatiempoComponent.vue")["default"]);
 Vue.component('parent-component', __webpack_require__(/*! ./components/ParentComponent.vue */ "./resources/js/components/ParentComponent.vue")["default"]);
 Vue.component('admin-component', __webpack_require__(/*! ./components/AdminComponent.vue */ "./resources/js/components/AdminComponent.vue")["default"]);
+Vue.component('tarea-component', __webpack_require__(/*! ./components/TareaComponent.vue */ "./resources/js/components/TareaComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -50864,6 +51283,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PasatiempoComponent_vue_vue_type_template_id_950faa72___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PasatiempoComponent_vue_vue_type_template_id_950faa72___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TareaComponent.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/TareaComponent.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TareaComponent_vue_vue_type_template_id_4c06b7b2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TareaComponent.vue?vue&type=template&id=4c06b7b2& */ "./resources/js/components/TareaComponent.vue?vue&type=template&id=4c06b7b2&");
+/* harmony import */ var _TareaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TareaComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/TareaComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TareaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TareaComponent_vue_vue_type_template_id_4c06b7b2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TareaComponent_vue_vue_type_template_id_4c06b7b2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TareaComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TareaComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/TareaComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TareaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TareaComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TareaComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TareaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TareaComponent.vue?vue&type=template&id=4c06b7b2&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/TareaComponent.vue?vue&type=template&id=4c06b7b2& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TareaComponent_vue_vue_type_template_id_4c06b7b2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TareaComponent.vue?vue&type=template&id=4c06b7b2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TareaComponent.vue?vue&type=template&id=4c06b7b2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TareaComponent_vue_vue_type_template_id_4c06b7b2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TareaComponent_vue_vue_type_template_id_4c06b7b2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

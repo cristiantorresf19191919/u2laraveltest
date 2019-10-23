@@ -3,8 +3,9 @@
     <div>
 
     <div>
-    <admin-component v-if="isadmin"></admin-component>
-    <pasatiempo-component v-else></pasatiempo-component>
+<!--     <admin-component v-if="isadmin"></admin-component>
+    <pasatiempo-component v-else></pasatiempo-component> -->
+    <tarea-component></tarea-component>
     </div>
 
     </div>

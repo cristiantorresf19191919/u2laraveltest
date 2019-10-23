@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::resource('/pasatiempos', 'PasatiempoController')->middleware('auth');
+Route::resource('/tareas', 'TareasController')->middleware('auth');
 Route::resource('/admin', 'UserController')->middleware('auth');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/isadmin/{isadmin}','UserRolesController@show');

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @php
-    // acá tu código PHP
+
     $id = auth()->user()->id;
     setcookie("idusuariologueado", $id);
 @endphp
@@ -12,8 +12,6 @@
                 <h5>autenticado con exito!</h5>
                 <div class="card-header">Dashboard</div>
                 <div class="card-body">
-
-
                     <parent-component></parent-component>
                 </div>
             </div>

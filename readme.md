@@ -1,3 +1,1 @@
-vue.js + laravel
-roles
-one to many users table -> pasatiempos table
+TEST DE TAREAS U2
